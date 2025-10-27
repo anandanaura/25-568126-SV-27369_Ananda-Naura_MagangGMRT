@@ -65,6 +65,27 @@ def ik_2d(x, y, L1, L2):
         'solutions': [sol1, sol2]
     }
 
+import matplotlib.pyplot as plt
+
+def plot_fk_2d(joints, title='Visualisasi Forward Kinematics (2D)', savepath=None):
+    joints = np.array(joints)
+    plt.figure(figsize=(6,6))
+    plt.plot(joints[:,0], joints[:,1], '-o', linewidth=3, markersize=8)
+    plt.scatter([0],[0], color='red', label='Base (0,0)')
+    plt.axis('equal')
+    plt.title(title)
+    plt.xlabel('X')
+    plt.ylabel('Y')
+    plt.grid(True)
+    plt.legend()
+
+    if savepath:
+        plt.savefig(savepath, dpi=200)
+        print(f"Gambar disimpan ke: {savepath}")
+    else:
+        plt.show()
+
+
 if __name__ == '__main__':
     L1 = 26.0   # femur
     L2 = 69.0   # tibia
@@ -85,3 +106,6 @@ if __name__ == '__main__':
         print("Solusi sudut (derajat):")
         print(f"  Solusi 1: θ1 = {ik['solutions'][0][0]:.4f}°, θ2 = {ik['solutions'][0][1]:.4f}°")
         print(f"  Solusi 2: θ1 = {ik['solutions'][1][0]:.4f}°, θ2 = {ik['solutions'][1][1]:.4f}°")
+
+    joints = res['joints']
+    plot_fk_2d(joints, title='Visualisasi FK', savepath=None)
